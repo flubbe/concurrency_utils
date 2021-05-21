@@ -1,6 +1,8 @@
 
 # Concurrency Utility Library
 
+[![Build Status](https://travis-ci.com/flubbe/concurrency_utils.svg?branch=main)](https://travis-ci.com/flubbe/concurrency_utils)
+
 ## Description
 
 A small collection of classes supporting concurrent evaluation of tasks. 
