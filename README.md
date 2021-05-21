@@ -8,7 +8,7 @@
 A small collection of classes supporting concurrent evaluation of tasks. 
 
 The library contains:
- - a templated thread pool for deferred execution of tasks: `deferred_thread_pool<queue_type>`
+ - a templated thread pool for deferred concurrent execution of tasks: `deferred_thread_pool<queue_type>`
  - three queues to use with the thread pool.
     - single producer, multiple consumer (non-blocking): `spmc_queue`
     - single producer, multiple consumer (blocking): `spmc_queue_blocking`
