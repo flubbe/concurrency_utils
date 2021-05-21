@@ -242,6 +242,7 @@ public:
         return tasks.size();
     }
 
+    /** return whether the pool is currently processing tasks. */
     bool is_processing() const
     {
         return process_tasks;
