@@ -13,6 +13,7 @@ The library contains:
     - single producer, multiple consumer (non-blocking): `spmc_queue`
     - single producer, multiple consumer (blocking): `spmc_queue_blocking`
     - multiple producer, multiple consumer (blocking): `mpmc_queue`
+
 The default queue type for the thread pool is `spmc_queue`.
 
 ## Dependencies
@@ -21,11 +22,11 @@ The test and the benchmark depend on [{fmt}](https://github.com/fmtlib/fmt).
 
 ## Setup
 
-Tested on Linux, GCC 10.2 (with C++17 enabled), CMake 3.19.6.
-
 The library is header-only.
  - include `concurrency_utils/thread_pool.h` to use `concurrency_utils::deferred_thread_pool`.
  - include `concurrency_utils/queues.h` to use any of `concurrency_utils::spmc_queue`, `concurrency_utils::spmc_queue_block`, `concurrency_utils::mpmc_queue`.
+
+Tested on Linux, GCC 11.1 (with C++17 enabled), CMake 3.20.2.
  
 ## References and other libraries
 
