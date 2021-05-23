@@ -168,6 +168,11 @@ public:
     /** start submitted tasks and wait for all tasks to be completed. */
     void run_tasks_and_wait()
     {
+        if(tasks.empty())
+        {
+            return;
+        }
+
         // run threads. keep notifying until we either have no threads left or the task list is empty.
         process_tasks = true;
         should_run.notify_all();
