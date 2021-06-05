@@ -1,6 +1,7 @@
 
 # Concurrency Utility Library
 
+[![License](https://img.shields.io/github/license/flubbe/concurrency_utils)](https://github.com/flubbe/concurrency_utils/blob/main/LICENSE.txt)
 [![Build Status](https://travis-ci.com/flubbe/concurrency_utils.svg?branch=main)](https://travis-ci.com/flubbe/concurrency_utils)
 
 ## Description
