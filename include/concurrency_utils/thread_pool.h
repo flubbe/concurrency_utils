@@ -70,7 +70,7 @@ class deferred_thread_pool
         threads.reserve(thread_count);
         for(std::size_t i = 0; i < thread_count; ++i)
         {
-            threads.emplace_back(&deferred_thread_pool::worker, this, i);
+            threads.emplace_back(&deferred_thread_pool::worker, this);
         }
 
         // wait for threads to be ready.
@@ -106,7 +106,7 @@ class deferred_thread_pool
     }
 
     /** worker function. */
-    void worker(std::size_t thread_id)
+    void worker()
     {
         ++active_threads;
 
