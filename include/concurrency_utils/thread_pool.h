@@ -117,7 +117,8 @@ class deferred_thread_pool
             // acquire lock.
             {
                 std::unique_lock run_lock{run_mutex};
-                should_run.wait(run_lock, [&]() -> bool { return stop || (process_tasks && !tasks.empty()); });
+                should_run.wait(run_lock, [&]() -> bool
+                                { return stop || (process_tasks && !tasks.empty()); });
             }
 
             // exit if the pool is stopped.
@@ -232,7 +233,8 @@ public:
     template<typename F, typename... A>
     void push_task(const F& task, const A&... args)
     {
-        push_task([task, args...] { task(args...); });
+        push_task([task, args...]
+                  { task(args...); });
     }
 
     /** return the number of threads. */
