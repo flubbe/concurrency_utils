@@ -34,11 +34,13 @@ include_directories(include)
 #
 # build tests
 #
-add_executable(test_thread_pool.linux src/test/main.cpp)
-target_link_libraries(test_thread_pool.linux fmt Threads::Threads)
+add_executable(test_thread_pool src/test/main.cpp)
+target_link_libraries(test_thread_pool fmt Threads::Threads)
 
 #
 # build benchmark
 #
-add_executable(bench_thread_pool.linux src/bench/main.cpp)
-target_link_libraries(bench_thread_pool.linux fmt Threads::Threads)
+find_package(benchmark REQUIRED)
+
+add_executable(bench_queues src/bench/main.cpp)
+target_link_libraries(bench_queues fmt Threads::Threads benchmark::benchmark)

@@ -8,6 +8,8 @@
  * \license Distributed under the MIT software license (see accompanying LICENSE.txt).
  */
 
+#include <cmath>
+
 struct vec4
 {
     float x{0}, y{0}, z{0}, w{0};

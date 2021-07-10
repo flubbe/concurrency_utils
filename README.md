@@ -18,7 +18,7 @@ The default queue type for the thread pool is `spmc_queue`.
 
 ## Dependencies
 
-The test and the benchmark depend on [{fmt}](https://github.com/fmtlib/fmt).
+The tests depend on [{fmt}](https://github.com/fmtlib/fmt). The benchmarks use [Google's benchmark library](https://github.com/google/benchmark).
 
 ## Setup
 

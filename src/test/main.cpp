@@ -22,7 +22,7 @@ constexpr float benchmark_time = 1000;
 vec4 out{1, 0, 0, 0};
 
 /** some normalized vector used in the calculations. */
-const vec4 l{0.5, 0.5, 0.70710678};
+const vec4 l{0.5f, 0.5f, 0.70710678f};
 
 /** the example task loops through blocks of this size (i.e., it loops block_size*block_size times). */
 constexpr auto block_size = 8;
