@@ -1,10 +1,10 @@
 /**
  * concurrency_utils - concurrency utility library
- * 
+ *
  * a thread pool for sequential task queueing and subsequent concurrent execution.
- * 
+ *
  * \author Felix Lubbe
- * \copyright Copyright (c) 2021
+ * \copyright Copyright (c) 2021-Present.
  * \license Distributed under the MIT software license (see accompanying LICENSE.txt).
  */
 
@@ -21,8 +21,8 @@
 namespace concurrency_utils
 {
 
-/** 
- * a C++17 thread pool that queues up jobs and (when instructed to do so) executes them by using the threads in the pool. 
+/**
+ * a C++17 thread pool that queues up jobs and (when instructed to do so) executes them by using the threads in the pool.
  */
 template<typename queue_type = mpmc_blocking_queue<std::function<void()>>>
 class deferred_thread_pool
@@ -171,6 +171,14 @@ public:
     {
         if(tasks.empty())
         {
+            process_tasks = false;
+
+            // threads might still be active.
+            while(active_threads > 0)
+            {
+                std::this_thread::yield();
+            }
+
             return;
         }
 
@@ -221,6 +229,12 @@ public:
         create_threads();
     }
 
+    void start_tasks()
+    {
+        process_tasks = true;
+        should_run.notify_all();
+    }
+
     /** push a function with no arguments or return value into the task queue. this does not start the task. */
     template<typename F>
     void push_task(const F& task)
@@ -235,6 +249,24 @@ public:
     {
         push_task([task, args...]
                   { task(args...); });
+    }
+
+    template<typename F>
+    void push_immediate_task(const F& task)
+    {
+        // submit task.
+        tasks.push(task);
+
+        // run threads.
+        process_tasks = true;
+        should_run.notify_one();
+    }
+
+    template<typename F, typename... A>
+    void push_immediate_task(const F& task, const A&... args)
+    {
+        push_immediate_task([task, args...]
+                            { task(args...); });
     }
 
     /** return the number of threads. */
