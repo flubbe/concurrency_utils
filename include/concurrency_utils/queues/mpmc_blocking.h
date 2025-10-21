@@ -58,7 +58,7 @@ public:
     /** clear container. blocking, thread-safe. */
     void clear()
     {
-        std::unique_lock{queue_mutex};
+        std::unique_lock lock{queue_mutex};
         data.clear();
     }
 
