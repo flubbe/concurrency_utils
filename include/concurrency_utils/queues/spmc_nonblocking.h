@@ -1,8 +1,8 @@
 /**
  * concurrency_utils - concurrency utility library
- * 
+ *
  * single producer (unsynchronized), multiple consumer (synchronized, non-blocking) queue.
- * 
+ *
  * \author Felix Lubbe
  * \copyright Copyright (c) 2021
  * \license Distributed under the MIT software license (see accompanying LICENSE.txt).
@@ -12,6 +12,7 @@
 #include <vector>
 #include <atomic>
 #include <mutex>
+#include <new>
 
 namespace concurrency_utils
 {
@@ -21,7 +22,7 @@ template<typename T>
 class spmc_queue
 {
     /** next slot for non-blocking read. */
-    std::atomic_uint next_slot{0};
+    alignas(std::hardware_destructive_interference_size) std::atomic_size_t next_slot{0};
 
     /** queue data. */
     std::vector<T> data;
@@ -42,7 +43,7 @@ public:
     /** try to pop an element off the container. popping elements is only safe when not concurrently modifying the queue otherwise (e.g., using push or clear). non-blocking, thread-safe. */
     bool try_pop(T& f)
     {
-        auto read = next_slot.fetch_add(1);
+        auto read = next_slot.fetch_add(1, std::memory_order::relaxed);
 
         /*
          * since we are (by assumption) not concurrently pushing data
@@ -51,14 +52,8 @@ public:
          */
         if(read < data.size())
         {
-            f = data[read];
+            f = std::move(data[read]);
             return true;
-        }
-        else
-        {
-            // the queue is empty, but we did already add one to next_slot.
-            // we set next_slot explicitly to the first invalid position to avoid uncontrolled growth.
-            next_slot = data.size();
         }
 
         return false;
@@ -82,14 +77,11 @@ public:
     /** return (approximate) size. non-blocking, not thread-safe. */
     std::size_t size() const
     {
-        auto index = next_slot.load();
+        auto index = next_slot.load(std::memory_order_relaxed);
         auto container_size = data.size();
-        if(index < container_size)
-        {
-            return container_size - index;
-        }
-
-        return 0;
+        if(index >= container_size)
+            return 0;
+        return container_size - index;
     }
 };
 
