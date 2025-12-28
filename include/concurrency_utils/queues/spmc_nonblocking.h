@@ -17,17 +17,31 @@
 namespace concurrency_utils
 {
 
+namespace detail
+{
+
+#if defined(__APPLE__) && (defined(__aarch64__) || defined(__arm64__))
+inline constexpr std::size_t cache_line_size = 128;
+#else
+inline constexpr std::size_t cache_line_size = std::hardware_destructive_interference_size;
+#endif
+
+}    // namespace detail
+
 /** single producer multiple consumer queue. */
 template<typename T>
 class spmc_queue
 {
     /** next slot for non-blocking read. */
-    alignas(std::hardware_destructive_interference_size) std::atomic_size_t next_slot{0};
+    alignas(detail::cache_line_size) std::atomic_size_t next_slot{0};
 
     /** queue data. */
     std::vector<T> data;
 
 public:
+    /** whether the queue supports thread-safe pushing. */
+    static constexpr bool supports_thread_safe_push = false;
+
     /** default constructor. */
     spmc_queue() = default;
 
@@ -77,7 +91,7 @@ public:
     /** return (approximate) size. non-blocking, not thread-safe. */
     std::size_t size() const
     {
-        auto index = next_slot.load(std::memory_order_relaxed);
+        auto index = next_slot.load(std::memory_order::relaxed);
         auto container_size = data.size();
         if(index >= container_size)
             return 0;

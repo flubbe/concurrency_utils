@@ -1,8 +1,8 @@
 /**
  * concurrency_utils - concurrency utility library
- * 
+ *
  * single producer (non-synchronized), multple consumer (synchronized, blocking) queue. consuming synchronization via mutex.
- * 
+ *
  * \author Felix Lubbe
  * \copyright Copyright (c) 2021
  * \license Distributed under the MIT software license (see accompanying LICENSE.txt).
@@ -26,6 +26,9 @@ class spmc_blocking_queue
     std::deque<T> data;
 
 public:
+    /** whether the queue supports thread-safe pushing. */
+    static constexpr bool supports_thread_safe_push = false;
+
     /** default constructor. */
     spmc_blocking_queue() = default;
 
@@ -41,7 +44,7 @@ public:
     /** try to pop an element off the container. popping elements is only safe when not concurrently modifying the queue otherwise (e.g., using push or clear). blocking, thread-safe. */
     bool try_pop(T& f)
     {
-        std::unique_lock mutex_lock{queue_mutex};
+        std::scoped_lock mutex_lock{queue_mutex};
 
         if(data.empty())
         {

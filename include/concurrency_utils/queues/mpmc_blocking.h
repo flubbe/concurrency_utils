@@ -26,6 +26,9 @@ class mpmc_blocking_queue
     std::deque<T> data;
 
 public:
+    /** whether the queue supports thread-safe pushing. */
+    static constexpr bool supports_thread_safe_push = true;
+
     /** default constructor. */
     mpmc_blocking_queue() = default;
 
