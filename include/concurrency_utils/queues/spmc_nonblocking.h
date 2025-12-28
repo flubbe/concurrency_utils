@@ -17,23 +17,12 @@
 namespace concurrency_utils
 {
 
-namespace detail
-{
-
-#if defined(__APPLE__) && (defined(__aarch64__) || defined(__arm64__))
-inline constexpr std::size_t cache_line_size = 128;
-#else
-inline constexpr std::size_t cache_line_size = std::hardware_destructive_interference_size;
-#endif
-
-}    // namespace detail
-
 /** single producer multiple consumer queue. */
 template<typename T>
 class spmc_queue
 {
     /** next slot for non-blocking read. */
-    alignas(detail::cache_line_size) std::atomic_size_t next_slot{0};
+    std::atomic_size_t next_slot{0};
 
     /** queue data. */
     std::vector<T> data;
