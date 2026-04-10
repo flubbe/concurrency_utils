@@ -46,7 +46,7 @@ public:
     /** try to pop an element off the container. popping elements is only safe when not concurrently modifying the queue otherwise (e.g., using push or clear). non-blocking, thread-safe. */
     bool try_pop(T& f)
     {
-        auto read = next_slot.fetch_add(1, std::memory_order::relaxed);
+        auto read = next_slot.fetch_add(1, std::memory_order_relaxed);
 
         /*
          * since we are (by assumption) not concurrently pushing data
@@ -80,7 +80,7 @@ public:
     /** return (approximate) size. non-blocking, not thread-safe. */
     std::size_t size() const
     {
-        auto index = next_slot.load(std::memory_order::relaxed);
+        auto index = next_slot.load(std::memory_order_relaxed);
         auto container_size = data.size();
         if(index >= container_size)
             return 0;
