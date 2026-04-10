@@ -1,10 +1,10 @@
 /**
  * concurrency_utils - concurrency utility library
- * 
+ *
  * multiple producer (synchronized, blocking), multiple consumer (synchronized, blocking) queue. synchronization via mutex.
- * 
+ *
  * \author Felix Lubbe
- * \copyright Copyright (c) 2021
+ * \copyright Copyright (c) 2026
  * \license Distributed under the MIT software license (see accompanying LICENSE.txt).
  */
 
@@ -35,14 +35,14 @@ public:
     /** push an element into the container. blocking, thread-safe. */
     void push(const T& f)
     {
-        std::unique_lock mutex_lock{queue_mutex};
+        std::unique_lock lock{queue_mutex};
         data.push_back(f);
     }
 
     /** try to pop an element off the container. blocking, thread-safe. */
     bool try_pop(T& f)
     {
-        std::unique_lock mutex_lock{queue_mutex};
+        std::unique_lock lock{queue_mutex};
 
         if(data.empty())
         {
@@ -58,7 +58,7 @@ public:
     /** clear container. blocking, thread-safe. */
     void clear()
     {
-        std::unique_lock{queue_mutex};
+        std::unique_lock lock{queue_mutex};
         data.clear();
     }
 
