@@ -1,10 +1,10 @@
 /**
  * concurrency_utils - concurrency utility library
- * 
+ *
  * thread pool test.
- * 
+ *
  * \author Felix Lubbe
- * \copyright Copyright (c) 2021
+ * \copyright Copyright (c) 2026
  * \license Distributed under the MIT software license (see accompanying LICENSE.txt).
  */
 
@@ -14,9 +14,6 @@
 
 #include "concurrency_utils/thread_pool.h"
 #include "../common/vec4.h"
-
-/** duration of thread pool throughput benchmark */
-constexpr float benchmark_time = 1000;
 
 /** global variable to perform random calculation in example task. don't expect this to hold any valid value (also due to possible concurrent reads/writes). */
 vec4 out{1, 0, 0, 0};
@@ -48,7 +45,7 @@ void example_task()
 }
 
 /** program entry point. */
-int main(int argc, char* argv[])
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
     fmt::print("spmc queue thread pool stress test. press CTRL-C to exit.\n");
 
