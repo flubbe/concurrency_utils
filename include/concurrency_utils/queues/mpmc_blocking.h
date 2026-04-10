@@ -26,6 +26,9 @@ class mpmc_blocking_queue
     std::deque<T> data;
 
 public:
+    /** whether the queue supports thread-safe pushing. */
+    static constexpr bool supports_thread_safe_push = true;
+
     /** default constructor. */
     mpmc_blocking_queue() = default;
 
@@ -65,14 +68,14 @@ public:
     /** check if the container is possibly empty. blocking, thread-safe. */
     bool empty() const
     {
-        std::unique_lock lock{queue_mutex};
+        std::scoped_lock lock{queue_mutex};
         return data.empty();
     }
 
     /** return (approximate) size. blocking, thread-safe. */
     std::size_t size() const
     {
-        std::unique_lock lock{queue_mutex};
+        std::scoped_lock lock{queue_mutex};
         return data.size();
     }
 };

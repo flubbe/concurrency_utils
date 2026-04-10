@@ -252,6 +252,7 @@ public:
     }
 
     template<typename F>
+        requires(queue_type::supports_thread_safe_push)
     void push_immediate_task(const F& task)
     {
         // submit task.
