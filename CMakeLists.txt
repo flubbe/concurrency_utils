@@ -25,7 +25,7 @@ add_library(concurrency_utils INTERFACE)
 target_include_directories(concurrency_utils INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-target_compile_features(concurrency_utils INTERFACE cxx_std_17)
+target_compile_features(concurrency_utils INTERFACE cxx_std_20)
 target_link_libraries(concurrency_utils INTERFACE
     Threads::Threads
 )

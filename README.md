@@ -23,12 +23,10 @@ The tests depend on [{fmt}](https://github.com/fmtlib/fmt). The benchmarks use [
 
 ## Setup
 
-The library is header-only.
+The library uses C++20 and is header-only.
 
 - include `concurrency_utils/thread_pool.h` to use `concurrency_utils::deferred_thread_pool`.
 - include `concurrency_utils/queues.h` to use any of `concurrency_utils::spmc_queue`, `concurrency_utils::spmc_blocking_queue`, `concurrency_utils::mpmc_blocking_queue`.
-
-Tested on Linux, GCC 11.1 (with C++17 enabled), CMake 3.20.2.
 
 ## References and other libraries
 
